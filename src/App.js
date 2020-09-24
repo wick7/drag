@@ -5,6 +5,8 @@ import './App.css';
 function App() {
 
   let dragged;
+  let tempItem = document.createElement('div')
+  tempItem.className = "tempItem"
 
   const handleStart = (e) => {
     e.dataTransfer.setData('text/plain', null)
@@ -13,40 +15,47 @@ function App() {
   }
 
   const handleEnd = (e) => {
-
-    e.target.style.opacity = '';
-  }
-  let tempItem = document.createElement('div')
-  tempItem.className = "tempItem"
-
-  const handleEnter = (e) => {
-
+    e.target.style.opacity = 1;
+    tempItem.parentNode.removeChild(tempItem);
     if (e.target.className === "col") {
-      e.target.style.background = "yellow";
-      e.target.append(tempItem);
+
     }
   }
 
+  const handleEnter = (e) => {
+    // if (e.target.className === "col") {
+    //   e.target.style.background = "yellow";
+    //   e.target.append(tempItem);
+    // }
+  }
+
   const handleOver = (e) => {
+    console.log("##", e.target.className)
     e.preventDefault();
-    // let tempItem = '<div className="tempItem">Temp</div>'
-    // if (e.target.className === 'col') {
-    //   e.target.appendChild(tempItem);
+    if (e.target.className === "col") {
+      e.target.offsetTop > 100 ? e.target.append(tempItem) : e.target.prepend(tempItem);
+    }
+
+  }
+
+  // const handleTempDrop = (e) => {
+
+  // }
+
+  const handleLeave = (e) => {
+    // e.preventDefault();
+    // if (e.target.className === "col") {
+    //   e.target.style.opacity = "";
     // }
 
   }
 
-  const handleLeave = (e) => {
-    if (e.target.className === "col") {
-      e.target.style.background = "";
-    }
-  }
-
-  const handleDrop = (event) => {
-    event.preventDefault();
-    if (event.target.className === "col") {
+  const handleDrop = (e) => {
+    e.preventDefault();
+    if (e.target.className === "col" || e.target.className === "tempItem") {
+      console.log(e.target.parentNode)
       dragged.parentNode.removeChild(dragged);
-      event.target.appendChild(dragged);
+      e.target.className === "col" ? e.target.prepend(dragged) : e.target.parentNode.prepend(dragged)
       dragged.animate(
         [
           // keyframes
@@ -72,8 +81,9 @@ function App() {
         onDragStart={handleStart}
         onDragEnd={handleEnd}
         onDragOver={handleOver}
+        onDragEnter={handleEnter}
         onDragLeave={handleLeave}
-        onDragEnter={handleEnter}>
+      >
         <div className="row">
           <div className="col">
             <div
@@ -97,17 +107,17 @@ function App() {
             <div
               draggable
               className="box"
-            >1</div>
+            >4</div>
             <div
               draggable
               className="box"
-            >2</div>
+            >5</div>
           </div>
           <div className="col">
             <div
               draggable
               className="box"
-            >3</div>
+            >6</div>
           </div>
         </div>
 
