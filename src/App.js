@@ -13,21 +13,31 @@ function App() {
   }
 
   const handleEnd = (e) => {
+
     e.target.style.opacity = '';
   }
+  let tempItem = document.createElement('div')
+  tempItem.className = "tempItem"
 
   const handleEnter = (e) => {
-    if (e.target.className === "dropzone") {
-      e.target.style.background = "";
+
+    if (e.target.className === "col") {
+      e.target.style.background = "yellow";
+      e.target.append(tempItem);
     }
   }
 
   const handleOver = (e) => {
     e.preventDefault();
+    // let tempItem = '<div className="tempItem">Temp</div>'
+    // if (e.target.className === 'col') {
+    //   e.target.appendChild(tempItem);
+    // }
+
   }
 
   const handleLeave = (e) => {
-    if (e.target.className === "dropzone") {
+    if (e.target.className === "col") {
       e.target.style.background = "";
     }
   }
@@ -40,12 +50,12 @@ function App() {
       dragged.animate(
         [
           // keyframes
-          { transform: 'scale(1.1)' },
+          { transform: 'scale(2.1)', color: 'yellow' },
         ], {
         // timing options
-        duration: 450,
+        duration: 700,
         iterations: 1,
-        easing: 'ease-out'
+        easing: 'cubic-bezier(0, 1.28, .74, .7)'
       }
       )
 
@@ -56,6 +66,7 @@ function App() {
 
   return (
     <div className="App">
+      <div className="header">Drag N Drop</div>
       <div className="container"
         onDrop={handleDrop}
         onDragStart={handleStart}
@@ -63,22 +74,43 @@ function App() {
         onDragOver={handleOver}
         onDragLeave={handleLeave}
         onDragEnter={handleEnter}>
-        <div className="col">
-          <div
-            draggable
-            className="box"
-          >1</div>
-          <div
-            draggable
-            className="box"
-          >2</div>
+        <div className="row">
+          <div className="col">
+            <div
+              draggable
+              className="box"
+            >1</div>
+            <div
+              draggable
+              className="box"
+            >2</div>
+          </div>
+          <div className="col">
+            <div
+              draggable
+              className="box"
+            >3</div>
+          </div>
         </div>
-        <div className="col">
-          <div
-            draggable
-            className="box"
-          >3</div>
+        <div className="row">
+          <div className="col">
+            <div
+              draggable
+              className="box"
+            >1</div>
+            <div
+              draggable
+              className="box"
+            >2</div>
+          </div>
+          <div className="col">
+            <div
+              draggable
+              className="box"
+            >3</div>
+          </div>
         </div>
+
       </div>
     </div>
   );
